@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo Aplicación Fitness</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e4e7ec;
+            color: #150f0f;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #07090d;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #c4c8cc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #d0d7de;
+        }
+
+        thead {
+            background-color: #dbeafe;
+            color: #9cb5ea;
+        }
+
+        tr:nth-child(even) {
+            background-color: #99bee3;
+        }
+
+        tr:hover {
+            background-color: #e0f2fe;
+        }
+
+        h1 {
+            color: #7090e5;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Este va a ser el Ejemplo de la App Fitness</h1>
+    <br>
+    <h2>Aqui no solo se trata de entrenar, se trata de transformar tu mente, cuerpo y vida.Ingresa tus datos y vamos con
+        toda🔥🔥🔥:</h2>
+    <label for="nombre">Nombre:</label>
+    <input placeholder="Ingrese su Nombre" type="text" id="nombre" name="nombre">
+
+
+    <h5>Ingresa tu genero</h5>
+    <label for="genero">Genero:</label>
+    <select id="genero" name="genero">
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+    </select>
+    <br>
+    <h5>Por favor ingresa tu edad</h5>
+    <label for="edad">Edad:</label>
+    <input placeholder="Ingresa tu edad" value="Ingrese su edad" type="number" id="edad" name="edad">
+    <br>
+
+
+    <h5>Por favor agrega tu Altura en Cm</h5>
+    <label for="Altura">Altura:</label>
+    <input placeholder="Ingresa tu altura" value="Altura en Cm" type="number" id="Altura" name="Altura">
+    <br>
+
+    <h5>Por favor ingresa tu peso en kg</h5>
+    <label for="peso">Peso:</label>
+    <input placeholder="Ingresa tu peso mantecoso" value="Peso en kg" type="number" id="peso" name="peso"> <br>
+
+    <h5>En este punto debes ingresar cual es tu objetivo y que buscas con el entrenamiento</h5>
+    <label for="objetivo">Objetivo:</label>
+    <select id="objetivo" name="objetivo">
+        <option value="Bajar de peso">Bajar de peso</option>
+        <option value="Ganar masa muscular">Ganar masa muscular</option>
+        <option value="Manenerme en forma">Mantenerme en forma</option>
+        <option value="Mejorar la resistencia">Mejorar la resistencia</option>
+        <option value="Definicion muscular">Definición muscular</option>
+    </select>
+    <br>
+    <h5>Aqui quiero que me indique que tan frecuente haces ejercicio</h5>
+    <label for="Actividad Fisica">Actividad:</label>
+    <select id="Actividad" name="Actividad">
+        <option value="Sedentario">Sedentario</option>
+        <option value="Poco activo">Poco activo</option>
+        <option value="Moderadamente activo">Moderadamente activo</option>
+        <option value="Muy Activo">Muy Activo</option>
+    </select>
+
+
+    <h3>En caso de tener alguna enfermedad, por favor mencionarla</h3>
+    <textarea name="condicion_salud" rows="10" cols="70"
+        placeholder="Ingrese que tipo de condicion presenta, si no presenta ninguna omita este paso"></textarea>
+
+    <br>
+
+
+    <br>
+
+    <title>Selecciona tu tipo de cuerpo</title>
+    <style>
+        .opcion-cuerpo {
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .opcion-cuerpo input[type="radio"] {
+            display: none;
+        }
+
+        .opcion-cuerpo img {
+            width: 150px;
+            height: auto;
+            border: 3px solid transparent;
+            border-radius: 10px;
+            transition: border 0.3s;
+        }
+
+        .opcion-cuerpo input[type="radio"]:checked+img {
+            border: 3px solid #00c853;
+            /* verde */
+            box-shadow: 0 0 10px #00c853;
+        }
+    </style>
+    </head>
+
+    <body>
+
+        <h2>Selecciona tu tipo de cuerpo</h2>
+
+        <form action="/procesar" method="POST">
+            <label class="opcion-cuerpo">
+                <input type="radio" name="tipo_cuerpo" value="endomorfo">
+                <img src="Endomorfo.png" alt="Endomorfo">
+            </label>
+
+            <label class="opcion-cuerpo">
+                <input type="radio" name="tipo_cuerpo" value="mesomorfo">
+                <img src="Mesomorfo.png" alt="Mesomorfo">
+            </label>
+
+            <label class="opcion-cuerpo">
+                <input type="radio" name="tipo_cuerpo" value="ectomorfo">
+                <img src="Ectomorfo.png" alt="Ectomorfo">
+            </label>
+
+            <br><br>
+            <button type="submit">Confirmar selección</button>
+        </form>
+
+
+        <button onclick="cargarPersonas()">Cerrar</button>
+
+        <table>
+            <thead>
+                <th>Numero </th>
+                <th>Edad </th>
+                <th>Nombre </th>
+                <th>Profesion</th>
+            </thead>
+            <tbody id="cuerpo-tabla">
+
+            </tbody>
+        </table>
+        <script>
+            async function cargarPersonas(params) {
+                try {
+                    const respuesta = await fetch('http://127.0.0.1:5000/listarPersonas');
+                    const datos = await respuesta.json();
+                    const cuerpoTabla = document.getElementById("cuerpo-tabla");
+                    cuerpoTabla.innerHTML = "";
+                    let indice = 1;
+                    datos.forEach((item) => {
+                        const fila = document.createElement("tr");
+                        fila.innerHTML = `
+                        <td>${indice}</td>
+                        <td>${item.Edad}</td>
+                        <td>${item.Nombre}</td>
+                        <td>${item.Profesion}</td>
+                    `;
+                        indice = indice + 1;
+                        cuerpoTabla.appendChild(fila);
+                    });
+                } catch (error) {
+                    console.log("El error fue:", error);
+                }
+            }
+            document.addEventListener("DOMContentLoaded", () => {
+                cargarPersonas();
+            });
+        </script>
+    </body>
+
+</html>
